@@ -1,0 +1,33 @@
+## Spuštění programu
+Aplikaci spustíte z příkazové řádky spuštěním hlavního souboru:
+`python MainForm.py`
+
+## Návod k použití
+
+### 1. Kreslení vlastních polygonů
+Výchozí stav po spuštění aplikace je režim kreslení polygonů na plátno. Aplikace plně podporuje tvorbu komplexních polygonů (polygonů s dírami).
+* **Levé tlačítko myši:** Přidání nového vrcholu do aktuálního obrysu.
+* **Pravé tlačítko myši:** Uzavření aktuálního obrysu. Pokud budete následně kreslit uvnitř tohoto obrysu, vytvoříte do polygonu průhlednou díru (lze jich vytvořit libovolné množství).
+* **Prostřední tlačítko myši (kolečko):** Uzavření celého komplexního polygonu a příprava plátna pro kreslení zcela nového, odděleného polygonu.
+
+### 2. Načtení externí mapy (Shapefile)
+Pro testování složitých geografických dat lze nahrát polygonový soubor `.shp`.
+* Na horní liště klikněte na ikonu složky (**Open**) nebo zvolte `File -> Open`.
+* Vyberte podporovaný soubor (např. mapu okresů ČR). Geometrie se automaticky přizpůsobí rozměrům okna a převrátí se kartografická osa Y pro správné vykreslení na monitoru.
+
+### 3. Vložení testovacího bodu
+* Na liště klikněte na ikonu terče s polygonem (**Point / polygon**).
+* Tím se přepnete z režimu kreslení do režimu vkládání bodu.
+* Kliknutím kamkoliv na plátno umístíte zelený testovací bod ($q$).
+
+### 4. Spuštění analýzy
+Máte-li připravenou mapu a umístěný bod, spusťte jeden ze dvou algoritmů na horní liště (nebo v menu `Analyze`):
+* **Ray Crossing:** Rychlá paprsková metoda (Even-Odd rule).
+* **Winding Number:** Přesná goniometrická metoda sčítání orientovaných úhlů (tzv. metoda ovíjení).
+
+Oba algoritmy jsou ošetřeny proti singularitám (bod na vrcholu, bod na hraně). O optimalizaci výkonu se stará **Min-Max Box** (Bounding Box), který okamžitě eliminuje polygony nacházející se mimo oblast testovaného bodu.
+
+Výsledkem analýzy je vyskakovací okno s textovou zprávou (uvnitř / venku / na hraně / na vrcholu) a grafické zvýraznění nalezeného polygonu azurovou barvou přímo na plátně.
+
+### 5. Čištění plátna
+* Kliknutím na ikonu přeškrtnutého kruhu (**Clear**) kompletně smažete všechna data z plátna a můžete začít od nuly.
