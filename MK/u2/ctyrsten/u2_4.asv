@@ -1,0 +1,93 @@
+clc;
+clear;
+close all;
+
+% ============================================
+% POLYEDRICKY GLOBUS NA CTYRSTENU
+% ============================================
+
+R = 1;   % polomer koule v projekci (pro vykresleni klidne 1)
+
+% Geograficka sit
+Du = 10 * pi/180;   % rozestup rovnobezek
+Dv = 10 * pi/180;   % rozestup poledniku
+du = 1 * pi/180;    % krok vzorkovani poledniku
+dv = 1 * pi/180;    % krok vzorkovani rovnobezek
+steps = [Du, Dv, du, dv];
+
+% Obecny rozsah, oriznuti se udela polygonem steny
+umin = -90 * pi/180;
+umax =  90 * pi/180;
+vmin = -180 * pi/180;
+vmax =  180 * pi/180;
+uv = [umin, umax, vmin, vmax];
+
+% Soubory s kontinenty
+conts = {'amer.txt', 'anta.txt', 'austr.txt', 'eur.txt'};
+
+% ============================================
+% GEOMETRIE CTYRSTENU PODLE NAVODU
+% ============================================
+
+u = asin(1/3);   % cca 19.4712°
+
+% Vrcholy ctyrsten
+A = [-u, 0];
+B = [-u, 120*pi/180];
+C = [-u, 240*pi/180];
+D = [ pi/2, 0];
+
+% Kartograficke poly sten
+K = [ u,  60*pi/180];
+L = [ u, 180*pi/180];
+M = [ u, 300*pi/180];
+N = [-pi/2, 0];
+
+% Definice sten:
+% K ... ABD
+% L ... BCD
+% M ... CAD
+% N ... ABC
+
+faces(1).name = 'K';
+faces(1).uk = K(1); faces(1).vk = K(2);
+faces(1).ub = [A(1), B(1), D(1)];
+faces(1).vb = [A(2), B(2), D(2)];
+
+faces(2).name = 'L';
+faces(2).uk = L(1); faces(2).vk = L(2);
+faces(2).ub = [B(1), C(1), D(1)];
+faces(2).vb = [B(2), C(2), D(2)];
+
+faces(3).name = 'M';
+faces(3).uk = M(1); faces(3).vk = M(2);
+faces(3).ub = [C(1), A(1), D(1)];
+faces(3).vb = [C(2), A(2), D(2)];
+
+faces(4).name = 'N';
+faces(4).uk = N(1); faces(4).vk = N(2);
+faces(4).ub = [A(1), C(1), B(1)];
+faces(4).vb = [A(2), C(2), B(2)];
+
+% ============================================
+% PREHLED VSECH 4 STEN
+% ============================================
+
+figure('Color', 'w', 'Name', 'Ctyrsten - vsechny steny');
+tiledlayout(2,2, 'Padding', 'compact', 'TileSpacing', 'compact');
+
+for i = 1:4
+    nexttile;
+    createGlobeFace(uv, steps, R, faces(i).uk, faces(i).vk, conts, faces(i).ub, faces(i).vb);
+    title(['Stena ', faces(i).name], 'FontWeight', 'bold');
+end
+
+% ============================================
+% KAZDA STENA ZVLAST - vhodne pro export
+% ============================================
+
+for i = 1:4
+    figure('Color', 'w', 'Name', ['Stena ', faces(i).name]);
+    createGlobeFace(uv, steps, R, faces(i).uk, faces(i).vk, conts, faces(i).ub, faces(i).vb);
+    title(['Ctyrsten - stena ', faces(i).name], 'FontWeight', 'bold');
+end
