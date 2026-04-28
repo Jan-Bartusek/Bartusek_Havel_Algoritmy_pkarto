@@ -129,7 +129,7 @@ def drawFace(ax, face, V, conts):
 conts = ["amer.txt", "anta.txt", "austr.txt", "eur.txt"]
 u = np.arcsin(np.sqrt(3) / 3)
 
-# Vrcholy
+# Vertices
 A = [0, 0]
 B = [0, np.pi/2]
 C = [0, np.pi]
@@ -140,7 +140,7 @@ F = [-np.pi/2, 0]
 pts = np.array([A, B, C, D, E, F], dtype=float)
 V = geoToCart(pts[:, 0], pts[:, 1])
 
-# Kartograficke poly
+# Cartographic points
 I = [ u, np.deg2rad(45)]
 J = [ u, np.deg2rad(135)]
 K = [ u, np.deg2rad(225)]
@@ -150,7 +150,7 @@ N = [-u, np.deg2rad(135)]
 O = [-u, np.deg2rad(225)]
 P = [-u, np.deg2rad(315)]
 
-# Steny
+# Faces
 faces = [
     {"name": "I", "uk": I[0], "vk": I[1], "ub": np.array([A[0], B[0], E[0]]), "vb": np.array([A[1], B[1], E[1]]), "idx": [1, 2, 5]},
     {"name": "J", "uk": J[0], "vk": J[1], "ub": np.array([B[0], C[0], E[0]]), "vb": np.array([B[1], C[1], E[1]]), "idx": [2, 3, 5]},
